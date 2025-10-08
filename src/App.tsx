@@ -1,27 +1,24 @@
-
-import { DataGrid, type GridRowsProp, type GridColDef } from '@mui/x-data-grid';
-import {useDemoData } from '@mui/x-data-grid-generator';
-import { useState } from 'react';
-
-import './App.css'
+import * as React from 'react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-const rows: GridRowsProp = [
-  { id: 1, name: 'Data Grid', description: 'the Community version' },
-  { id: 2, name: 'Data Grid Pro', description: 'the Pro version' },
-  { id: 3, name: 'Data Grid Premium', description: 'the Premium version' },
-];
-const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Product Name', width: 200 },
-  { field: 'description', headerName: 'Description', width: 300 },
-];
-function App() {
-  const [nbRows, setNbRows] = useState(rows.length);
+import { DataGrid } from '@mui/x-data-grid';
+import { useDemoData } from '@mui/x-data-grid-generator';
+
+export default function FlexGrid() {
+  const [nbRows, setNbRows] = React.useState(3);
   const removeRow = () => setNbRows((x) => Math.max(0, x - 1));
   const addRow = () => setNbRows((x) => Math.min(100, x + 1));
+
+  const { data, loading } = useDemoData({
+    dataSet: 'Commodity',
+    rowLength: 10,
+    maxColumns: 10,
+  });
+
   return (
-    <>
-   <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+    <Box sx={{ width: '100%' }}>
+      <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
         <Button size="small" onClick={removeRow}>
           Remove a row
         </Button>
@@ -29,11 +26,9 @@ function App() {
           Add a row
         </Button>
       </Stack>
-     <div style={{ height: 300, width: '100%' }}>
-      <DataGrid rows={rows.slice(0, nbRows)} columns={columns} />
-    </div>
-    </>
-  )
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <DataGrid {...data} rows={data.rows.slice(0, nbRows)} loading={loading} />
+      </div>
+    </Box>
+  );
 }
-
-export default App

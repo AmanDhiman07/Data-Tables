@@ -13,7 +13,7 @@ export default function FlexGrid() {
   const { data, loading } = useDemoData({
     dataSet: 'Commodity',
     rowLength: 10,
-    maxColumns: 10,
+    maxColumns: 12,
   });
 
   return (
@@ -26,8 +26,10 @@ export default function FlexGrid() {
           Add a row
         </Button>
       </Stack>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <DataGrid {...data} rows={data.rows.slice(0, nbRows)} loading={loading} />
+      <div style={{ display: 'flex', flexDirection: 'column'}}>
+        <DataGrid 
+         autoHeight
+        {...data} rows={data.rows.slice(0, nbRows)} loading={loading} />
       </div>
     </Box>
   );
